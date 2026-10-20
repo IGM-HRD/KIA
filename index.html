@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI를 활용한 판매역량 Skill-up · 프롬프트 모음집</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --bg:#F3F5F8;
+  --surface:#FFFFFF;
+  --surface2:#F7F9FB;
+  --panel:#F4F6F9;
+  --line:#E2E7ED;
+  --line2:#CDD5DE;
+  --text:#0A1620;
+  --text2:#2E3A48;
+  --muted:#667487;
+  --accent:#0E5BD8;
+  --accent-ink:#FFFFFF;
+  --accent-soft:#E7EFFC;
+  --warn:#D2352B;
+  --warn-soft:#FDECEA;
+  --ok:#14866D;
+  --hero:#05141F;
+  --hero2:#0C2536;
+  --shadow:0 1px 2px rgba(10,22,32,.04),0 4px 16px rgba(10,22,32,.05);
+  --shadow-hi:0 2px 4px rgba(10,22,32,.05),0 12px 32px rgba(10,22,32,.09);
+  --radius:18px;
+  --scale:1;
+  /* 유형 배지 */
+  --t-input-bg:#0E5BD8; --t-input-fg:#FFFFFF;
+  --t-next-bg:#E7EFFC;  --t-next-fg:#0E4FB8;
+  --t-fix-bg:#EEF1F4;   --t-fix-fg:#4A5868;
+  --t-inst-bg:#EFEAFD;  --t-inst-fg:#5B3CC4;
+  --t-build-bg:#E3F5EF; --t-build-fg:#0F7258;
+  --t-theory-bg:transparent; --t-theory-fg:#667487;
+}
+html[data-theme="dark"]{
+  --bg:#070D14;
+  --surface:#0E1721;
+  --surface2:#121D29;
+  --panel:#0A121B;
+  --line:#1E2B3A;
+  --line2:#2B3B4E;
+  --text:#ECF1F7;
+  --text2:#C5CFDB;
+  --muted:#8796A9;
+  --accent:#5E9BFF;
+  --accent-ink:#06101C;
+  --accent-soft:#132744;
+  --warn:#FF7A6E;
+  --warn-soft:#2A1513;
+  --ok:#3CC79F;
+  --hero:#03090F;
+  --hero2:#0A1C2A;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+  --shadow-hi:0 8px 28px rgba(0,0,0,.45);
+  --t-input-bg:#5E9BFF; --t-input-fg:#06101C;
+  --t-next-bg:#132744;  --t-next-fg:#8DB8FF;
+  --t-fix-bg:#18222E;   --t-fix-fg:#A9B6C6;
+  --t-inst-bg:#221A3D;  --t-inst-fg:#B9A5FF;
+  --t-build-bg:#0F2A23; --t-build-fg:#5FD6B0;
+  --t-theory-bg:transparent; --t-theory-fg:#8796A9;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:150px}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:"Pretendard Variable","Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.6;letter-spacing:-.01em;
+  -webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;
+  transition:background .25s,color .25s;
+}
+button{font-family:inherit}
+svg{display:block}
+
+/* ---------- 히어로 ---------- */
+.hero{
+  position:relative;overflow:hidden;color:#fff;
+  background:
+    radial-gradient(900px 420px at 88% -10%,rgba(94,155,255,.28),transparent 60%),
+    radial-gradient(600px 300px at -5% 110%,rgba(60,199,159,.12),transparent 60%),
+    linear-gradient(160deg,var(--hero2) 0%,var(--hero) 70%);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:44px 44px;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 95%);mask-image:linear-gradient(180deg,#000 0%,transparent 95%);
+}
+.hero-in{position:relative;max-width:1040px;margin:0 auto;padding:52px 24px 40px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12.5px;letter-spacing:.12em;color:#A9C8FF;font-weight:700;margin-bottom:16px;
+}
+.eyebrow::before{content:"";width:18px;height:2px;background:#5E9BFF;border-radius:2px}
+h1{margin:0 0 12px;font-size:clamp(28px,4.4vw,42px);line-height:1.2;letter-spacing:-.035em;font-weight:800}
+h1 .h1-sub{display:block;color:#9FB3C8;font-weight:700}
+.sub{margin:0;color:#B9C7D6;font-size:15px;max-width:560px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.stat{
+  display:flex;align-items:baseline;gap:6px;padding:9px 14px;border-radius:12px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(6px);
+  font-size:13px;color:#B9C7D6;
+}
+.stat b{font-size:18px;color:#fff;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+
+/* 7차시 상승 막대 (차시 바로가기) */
+.rising{display:flex;align-items:flex-end;gap:7px;height:132px}
+.rising button{
+  position:relative;width:30px;border:none;padding:0;cursor:pointer;border-radius:7px 7px 3px 3px;
+  background:linear-gradient(180deg,rgba(94,155,255,.55),rgba(94,155,255,.16));
+  transition:transform .18s,background .18s;
+}
+.rising button:nth-child(1){height:22%}.rising button:nth-child(2){height:34%}
+.rising button:nth-child(3){height:46%}.rising button:nth-child(4){height:58%}
+.rising button:nth-child(5){height:70%}.rising button:nth-child(6){height:84%}
+.rising button:nth-child(7){height:100%;background:linear-gradient(180deg,#7DB0FF,#2F73E0)}
+.rising button span{position:absolute;left:0;right:0;top:-22px;text-align:center;font-size:12px;font-weight:800;color:#9FB3C8}
+.rising button:hover,.rising button:focus-visible{transform:translateY(-4px);background:linear-gradient(180deg,#9CC2FF,#3A7EEA);outline:none}
+.rising button:hover span{color:#fff}
+
+/* ---------- 툴바 ---------- */
+.toolbar{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb,var(--bg) 82%,transparent);
+  -webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.toolbar-in{max-width:1040px;margin:0 auto;padding:14px 24px 10px}
+.searchrow{display:flex;gap:8px;align-items:center}
+.search{position:relative;flex:1;min-width:0}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted);pointer-events:none}
+#q{
+  width:100%;background:var(--surface);border:1px solid var(--line);
+  color:var(--text);border-radius:12px;padding:12px 14px 12px 42px;font-size:15px;
+  font-family:inherit;box-shadow:var(--shadow);transition:border-color .15s,box-shadow .15s;
+}
+#q::placeholder{color:var(--muted)}
+#q:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.ctrl{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.iconbtn{
+  background:transparent;border:none;color:var(--text2);
+  padding:0 13px;height:46px;font-size:14px;cursor:pointer;white-space:nowrap;font-weight:700;
+  display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;
+}
+.iconbtn + .iconbtn{border-left:1px solid var(--line)}
+.iconbtn:hover{background:var(--surface2);color:var(--text)}
+.iconbtn:active{background:var(--accent-soft)}
+.iconbtn svg{width:18px;height:18px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-top:12px;padding:2px 0 4px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:1px;
+  background:var(--surface);border:1px solid var(--line);color:var(--text2);
+  border-radius:12px;padding:7px 14px 8px;cursor:pointer;text-align:left;
+  transition:background .15s,border-color .15s,color .15s,transform .15s;
+}
+.tab b{font-size:14px;font-weight:800;line-height:1.3}
+.tab small{font-size:11.5px;color:var(--muted);font-weight:600;line-height:1.3;white-space:nowrap}
+.tab:hover{border-color:var(--line2)}
+.tab[aria-selected="true"]{background:var(--text);border-color:var(--text);color:var(--bg)}
+.tab[aria-selected="true"] small{color:color-mix(in srgb,var(--bg) 70%,transparent)}
+.counts{margin-top:6px;font-size:12.5px;color:var(--muted);font-weight:600}
+
+/* ---------- 본문 ---------- */
+main{padding:8px 24px 110px;max-width:1040px;margin:0 auto}
+
+.session{margin-top:56px}
+.session-head{
+  display:flex;align-items:center;gap:20px;padding:0 0 18px;margin-bottom:6px;
+  border-bottom:1px solid var(--line);
+}
+.session-num{
+  flex:0 0 auto;width:72px;height:72px;border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--text);color:var(--bg);
+}
+.session-num small{font-size:10.5px;font-weight:700;letter-spacing:.08em;opacity:.65;line-height:1}
+.session-num b{font-size:32px;font-weight:800;line-height:1.05;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.session-stage{
+  display:inline-block;font-size:12.5px;color:var(--accent);font-weight:800;letter-spacing:.01em;
+  background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:6px;
+}
+.session-title{font-size:calc(24px * var(--scale));font-weight:800;margin:0;letter-spacing:-.03em;line-height:1.3}
+
+.chapter{margin-top:30px}
+.chapter-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:calc(16px * var(--scale));font-weight:800;margin:0 0 14px;letter-spacing:-.02em;color:var(--text2);
+}
+.chapter-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.practice{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:22px;margin-bottom:16px;box-shadow:var(--shadow);
+}
+.p-head{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;margin-bottom:6px}
+.p-code{
+  font-size:calc(12.5px * var(--scale));font-weight:800;color:var(--accent);
+  font-variant-numeric:tabular-nums;letter-spacing:.02em;
+  border:1.5px solid var(--accent);border-radius:8px;padding:2px 8px;line-height:1.4;
+}
+.p-title{font-size:calc(18px * var(--scale));font-weight:800;margin:0;letter-spacing:-.025em;flex:1;min-width:200px}
+.p-tool{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:calc(12.5px * var(--scale));color:var(--muted);font-weight:600;
+  background:var(--surface2);border:1px solid var(--line);padding:4px 10px;border-radius:999px;
+}
+.p-tool svg{width:13px;height:13px}
+
+/* ---------- 프롬프트 카드 ---------- */
+.prompts{margin-top:14px;display:flex;flex-direction:column;gap:12px}
+.prompt{
+  position:relative;border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  overflow:hidden;transition:border-color .15s,box-shadow .15s;
+}
+.prompt:hover{border-color:var(--line2);box-shadow:var(--shadow-hi)}
+.prompt::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
+.prompt.t-next::before{background:var(--t-next-fg)}
+.prompt.t-fix::before{background:var(--line2)}
+.prompt.t-inst::before{background:var(--t-inst-fg)}
+.prompt.t-build::before{background:var(--t-build-fg)}
+.prompt.t-theory::before{background:var(--line2)}
+.prompt.fill{border-color:color-mix(in srgb,var(--warn) 45%,var(--line))}
+.prompt.fill::before{background:var(--warn)}
+.pr-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 14px 10px 20px}
+.badge{
+  font-size:calc(11.5px * var(--scale));font-weight:800;padding:3px 9px;border-radius:7px;letter-spacing:.01em;
+  white-space:nowrap;line-height:1.5;
+}
+.b-input{background:var(--t-input-bg);color:var(--t-input-fg)}
+.b-next{background:var(--t-next-bg);color:var(--t-next-fg)}
+.b-fix{background:var(--t-fix-bg);color:var(--t-fix-fg)}
+.b-inst{background:var(--t-inst-bg);color:var(--t-inst-fg)}
+.b-build{background:var(--t-build-bg);color:var(--t-build-fg)}
+.b-theory{background:var(--t-theory-bg);color:var(--t-theory-fg);box-shadow:inset 0 0 0 1px var(--line2)}
+.b-fillmark{background:var(--warn-soft);color:var(--warn)}
+.pr-label{font-size:calc(14px * var(--scale));color:var(--text2);font-weight:700;flex:1;min-width:140px;letter-spacing:-.015em}
+.copy{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--text);color:var(--bg);border:none;border-radius:10px;
+  padding:0 14px;height:38px;font-size:calc(13px * var(--scale));font-weight:800;cursor:pointer;
+  transition:transform .12s,background .15s,opacity .15s;
+}
+.copy svg{width:15px;height:15px}
+.copy:hover{opacity:.88}
+.copy:active{transform:scale(.96)}
+.copy.done{background:var(--ok);color:#fff}
+.pr-body{margin:0 14px 14px 20px;background:var(--panel);border-radius:10px;padding:14px 16px}
+.pr-text{
+  margin:0;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;
+  font-size:calc(15px * var(--scale));line-height:1.78;letter-spacing:-.01em;color:var(--text);
+}
+.pr-text mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;border-radius:3px;padding:0 1px}
+.pr-note{
+  display:flex;gap:8px;align-items:flex-start;
+  margin:0 14px 14px 20px;font-size:calc(13px * var(--scale));color:var(--warn);
+  background:var(--warn-soft);border-radius:10px;padding:10px 12px;line-height:1.55;font-weight:600;
+}
+.pr-note svg{flex:0 0 auto;width:16px;height:16px;margin-top:2px}
+
+/* ---------- 안내 박스 ---------- */
+.callout{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:28px;font-size:14.5px;line-height:1.7;box-shadow:var(--shadow);
+  display:grid;grid-template-columns:1.4fr 1fr;gap:28px;
+}
+.callout h2{margin:0 0 14px;font-size:17px;font-weight:800;letter-spacing:-.02em}
+.callout ol{margin:0;padding:0;list-style:none;counter-reset:c}
+.callout li{position:relative;padding-left:34px;margin-bottom:10px;color:var(--text2)}
+.callout li::before{
+  counter-increment:c;content:counter(c);position:absolute;left:0;top:1px;
+  width:22px;height:22px;border-radius:7px;background:var(--surface2);border:1px solid var(--line);
+  font-size:12px;font-weight:800;color:var(--muted);display:flex;align-items:center;justify-content:center;
+}
+.legend{display:flex;flex-direction:column;gap:10px;border-left:1px solid var(--line);padding-left:28px}
+.legend h3{margin:0 0 4px;font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.04em}
+.legend div{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text2)}
+.legend .badge{min-width:66px;text-align:center}
+.legend .lg-fill{display:flex;align-items:center;gap:10px}
+.legend .lg-fill i{display:block;width:66px;height:22px;border-radius:7px;border:1.5px solid var(--warn);border-left-width:5px;background:var(--warn-soft)}
+
+.empty{text-align:center;color:var(--muted);padding:80px 20px;font-size:15px}
+.empty svg{width:40px;height:40px;margin:0 auto 14px;opacity:.5}
+
+/* ---------- 토스트 · 맨 위로 ---------- */
+#toast{
+  position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);
+  background:var(--text);color:var(--bg);padding:12px 20px;border-radius:999px;
+  font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:.22s;z-index:100;
+  box-shadow:var(--shadow-hi);display:flex;align-items:center;gap:8px;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#totop{
+  position:fixed;right:22px;bottom:24px;z-index:60;width:48px;height:48px;border-radius:14px;
+  background:var(--surface);color:var(--text);border:1px solid var(--line);box-shadow:var(--shadow-hi);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;
+}
+#totop.show{opacity:1;transform:none;pointer-events:auto}
+#totop svg{width:20px;height:20px}
+
+footer{padding:36px 24px 56px;color:var(--muted);font-size:12.5px;text-align:center;border-top:1px solid var(--line);line-height:1.8}
+footer b{color:var(--text2)}
+
+@media (max-width:820px){
+  .hero-in{grid-template-columns:1fr}
+  .rising{height:84px;gap:6px}
+  .rising button{flex:1;width:auto}
+  .callout{grid-template-columns:1fr;gap:20px}
+  .legend{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:18px}
+}
+@media (max-width:520px){
+  .hero-in{padding:36px 16px 28px;gap:26px}
+  .sub{font-size:14px}
+  .toolbar-in{padding:10px 16px 8px}
+  .iconbtn{padding:0 10px;height:44px}
+  main{padding:4px 16px 90px}
+  .session{margin-top:44px}
+  .session-head{gap:14px}
+  .session-num{width:58px;height:58px;border-radius:16px}
+  .session-num b{font-size:26px}
+  .session-title{font-size:calc(20px * var(--scale))}
+  .practice{padding:16px;border-radius:16px}
+  .pr-top{padding:11px 12px 9px 16px}
+  .pr-body,.pr-note{margin-left:16px;margin-right:12px}
+  .pr-body{padding:12px 13px}
+  .callout{padding:18px}
+  #totop{right:14px;bottom:16px}
+}
+
+@media print{
+  .toolbar,.rising,#toast,#totop,.copy,footer,.stats{display:none!important}
+  body{background:#fff;color:#000;font-size:11pt}
+  .hero{background:#fff!important;color:#000}
+  .hero::before{display:none}
+  .hero-in{padding:0 0 12px;display:block}
+  .eyebrow,.sub,h1 .h1-sub{color:#333!important}
+  .practice,.prompt,.callout{background:#fff;border:1px solid #bbb;box-shadow:none;break-inside:avoid}
+  .pr-body{background:#fff;padding:4px 0}
+  .session{break-before:page}
+  .session-num{background:#000;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .session-stage,.p-code,.chapter-title{color:#000;background:none}
+  .badge{border:1px solid #666;background:#fff!important;color:#000!important;box-shadow:none}
+  .pr-note{color:#333;background:none;border-top:1px dashed #bbb;border-radius:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="eyebrow">기아 오토컨설턴트 · 전문가 과정</div>
+      <h1>AI를 활용한 판매역량 Skill-up<span class="h1-sub">프롬프트 모음집</span></h1>
+      <p class="sub">1~7차시 실습 프롬프트 전체 · 복사해서 AI에 붙여넣고, 내 고객 상황으로 바꿔 쓰세요</p>
+      <div class="stats" id="stats"></div>
+    </div>
+    <nav class="rising" id="rising" aria-label="차시 바로가기"></nav>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-in">
+    <div class="searchrow">
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="차종·키워드로 찾기 (예: 카니발, 보조금, 챗봇)" autocomplete="off" aria-label="프롬프트 검색">
+      </label>
+      <div class="ctrl">
+        <button class="iconbtn" id="fs-down" title="글자 작게">가－</button>
+        <button class="iconbtn" id="fs-up" title="글자 크게">가＋</button>
+        <button class="iconbtn" id="theme" title="화면 밝기 전환" aria-label="화면 밝기 전환">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="counts" id="counts"></div>
+  </div>
+</div>
+
+<main id="app"></main>
+
+<footer>
+  <b>기아 오토컨설턴트 AI 활용 과정 · 프롬프트 모음집</b><br>
+  좋은 프롬프트는 외우는 것이 아니라 내 고객에 맞게 고쳐 쓰는 것입니다. AI가 준 답의 최종 책임은 보내는 사람에게 있습니다.
+</footer>
+
+<button id="totop" title="맨 위로" aria-label="맨 위로">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+<div id="toast" role="status" aria-live="polite">복사했습니다</div>
+
+<script>
+/* ===== 유형 정의 =====
+   input  : 새로 입력
+   next   : 앞 대화에 이어서 입력
+   fix    : 결과 다듬기 (짧은 수정 요청)
+   inst   : 챗봇 지침 (Gems/GPTs 지침 칸에 붙여넣기)
+   build  : 도구 제작 (HTML 결과물)
+   theory : 설명용 예시 (직접 입력하는 것이 아님)
+*/
+const T = {
+  input :['b-input','입력'],
+  next  :['b-next','이어서'],
+  fix   :['b-fix','다듬기'],
+  inst  :['b-inst','지침'],
+  build :['b-build','도구 제작'],
+  theory:['b-theory','이론 예시']
+};
+
+const DATA = [
+ {
+  "n": 1,
+  "stage": "오리엔테이션",
+  "title": "생성형 AI 활용 첫걸음",
+  "chapters": [
+   {
+    "title": "2. 프롬프트, 이렇게 던지면 답이 달라진다",
+    "practices": [
+     {
+      "code": "2-2",
+      "title": "막연한 질문 vs 영업 상담 질문",
+      "kind": "실습",
+      "tool": "ChatGPT",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 막연하게 물어보기",
+        "x": "기아 카니발의 장점을 정리해 줘."
+       },
+       {
+        "t": "input",
+        "l": "STEP 2 · 역할·맥락·조건·형식 얹기",
+        "x": "너는 기아 오토컨설턴트야. 초등학생 아이 둘을 둔 40대 아빠가 가족 여행용 차를 보러 왔어. 경쟁 미니밴이랑 고민 중이고 캠핑을 자주 다녀. 이 고객에게 카니발을 추천하는 상담 멘트를 따뜻한 말투로 세 문장으로 만들어 줘."
+       },
+       {
+        "t": "input",
+        "l": "STEP 3 · 프롬프트 자체를 AI에게 맡기기",
+        "x": "카니발, 40대 아빠, 아이 둘, 캠핑, 미니밴이랑 고민 중. 이 고객 정보로 상담 답변용 멘트를 만들 수 있는 프롬프트를 작성해줘."
+       },
+       {
+        "t": "input",
+        "l": "STEP 3 · 내 고객으로 바꿔 쓰는 빈칸 틀",
+        "fill": 1,
+        "x": "너는 기아 오토컨설턴트야.\n(어떤 고객이 왔나요? 나이·가족·상황)\n(예산? 고민하는 경쟁차? 중요하게 보는 것?)\n(몇 문장으로? 어떤 말투로? 어떤 모양으로?)"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "3. 5분 만에 만드는 나만의 영업 무기",
+    "practices": [
+     {
+      "code": "3-1",
+      "title": "영업 활용 3종 — 트렌드·스펙·금융",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "① 시장 트렌드",
+        "x": "너는 기아 오토컨설턴트야. 2026년 국내 패밀리 SUV·미니밴 시장의 트렌드를 최신 자료를 찾은 후 3가지로 정리하고, 각 트렌드에서 기아 차종(쏘렌토·카니발·EV9 등)이 어떤 강점으로 대응할 수 있는지 상담용 한마디로 정리해 줘."
+       },
+       {
+        "t": "input",
+        "l": "② 차량 스펙을 쉬운 말로",
+        "x": "너는 기아 오토컨설턴트야. 카니발의 '2열 독립시트, 스마트 파워 슬라이딩 도어' 이 두 가지를, 자동차 잘 모르는 40대 고객이 '오, 좋네' 하고 이해할 수 있게 생활 속 예시를 들어 쉽게 설명해 줘."
+       },
+       {
+        "t": "input",
+        "l": "③ 금융 시뮬레이션",
+        "x": "차량 가격 4,091만 원, 선수금 500만 원, 60개월 할부, 연이율 6%. 이 조건으로 월 납입금이 대략 얼마인지 계산하고, 고객에게 설명하는 말투로 정리해 줘.",
+        "note": "실제 적용 이율·프로모션은 기아 공식 견적이 기준입니다."
+       }
+      ]
+     },
+     {
+      "code": "3-3",
+      "title": "사진·PDF 업로드로 즉시 분석",
+      "kind": "실습",
+      "tool": "ChatGPT (파일 업로드 · 설정)",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "① 견적서 두 장 비교 (사진 2장 첨부 후)",
+        "x": "두 견적서를 비교할 거야. 첫 번째는 경쟁사, 두 번째는 우리 기아 견적이야. 두 자료에 있는 내용만으로 차량가·할인·금융조건·사은품·A/S를 같은 기준의 표로 정리하고, 기아가 유리한 포인트를 상담용으로 짚어줘. 자료에 없는 숫자는 지어내지 말고 '확인 필요'라고 표시해.",
+        "note": "기아 견적은 반드시 공식 견적 시스템 출력본으로. 정리된 금액은 원본과 한 번 더 대조하세요."
+       },
+       {
+        "t": "input",
+        "l": "② 긴 PDF 서류 쉽게 풀기 (PDF 첨부 후)",
+        "x": "이 계약서에서 고객이 꼭 알아야 할 핵심 조건 5가지만, 자동차 잘 모르는 고객도 이해할 수 있게 쉬운 말로 정리해 줘.",
+        "note": "계약 효력이 있는 내용은 반드시 원문과 회사 규정을 기준으로 안내하세요."
+       },
+       {
+        "t": "input",
+        "l": "③ 맞춤형 지침 초안 만들기",
+        "x": "나는 기아 오토컨설턴트야. 앞으로 너와 상담용 대화를 자주 할 거야. 매번 설명 안 해도 네가 내 상황에 맞게 답할 수 있도록, '맞춤형 지침'에 넣을 문구를 만들어 줘. 내 역할, 자주 다루는 업무(차량 추천·견적·설득 멘트), 원하는 말투(정중하고 따뜻하게), 답변 형식(상담에 바로 쓸 수 있게)을 포함해서 정리해 줘.",
+        "note": "초안을 그대로 저장하지 말고 반드시 읽고 내 업무에 맞게 고친 뒤 설정에 붙여넣습니다."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "n": 2,
+  "stage": "1단계 · 가망고객 발굴",
+  "title": "고객은 사라지지 않는다, 안 보일 뿐",
+  "chapters": [
+   {
+    "title": "2. 내 상권 숨은 고객, AI로 캐내기",
+    "practices": [
+     {
+      "code": "2-1",
+      "title": "지역 기반 잠재고객 발굴",
+      "kind": "실습",
+      "tool": "ChatGPT (웹 검색)",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 2 · 상권 인구·가구 통계 찾기",
+        "fill": 1,
+        "x": "너는 기아 오토컨설턴트야. 내 담당 지역은 경기도 화성시 동탄이야. 이 지역의 최신 인구·가구 통계를 웹에서 찾아서, 자동차를 새로 살 만한 고객 유형 5가지와 유형별 관심 차종·접근 방법을 표로 정리해 줘.\n찾은 자료의 출처도 함께 적어줘.",
+        "note": "지역명을 본인 담당 상권으로 바꿔서 입력하세요. '웹에서 찾아서 / 최신 / 출처' 이 세 마디가 답의 신뢰도를 만듭니다. 빼고 물으면 AI가 지어낸 통계가 나옵니다."
+       },
+       {
+        "t": "next",
+        "l": "STEP 4 · 전국/경기 시장 트렌드",
+        "x": "이번엔 최근 우리나라 자동차 시장 트렌드를 웹에서 찾아줘. 특히 전기차·하이브리드 같은 친환경차 등록 비중이 어떻게 변하고 있는지, SUV 선호가 어떤지 최신 통계로 알려줘. 그걸 근거로, 앞에서 본 동탄의 인구 특성과 연결하면 어떤 차종을 우선 제안하는 게 좋을지 출처와 함께 정리해줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 5 · 어느 동네부터 공략할까",
+        "x": "방금 찾은 인구 특성과 시장 트렌드를 근거로, 이 지역에서 우선 공략하면 좋을 고객 유형을 3~4가지로 정리해줘. 각 유형마다 어떤 차종을 어떤 이유로 제안하면 좋을지, 접근할 때 강조할 포인트까지 함께 알려줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 6 · 그 고객을 어디서 만날까",
+        "x": "그럼 이 지역에서 그런 고객들을 실제로 만나거나 접촉할 수 있는 방법을 알려줘. 온라인·오프라인으로 나눠서, 자동차 영업사원이 시도해볼 만한 현실적인 접점을 구체적으로 정리해줘."
+       }
+      ]
+     },
+     {
+      "code": "2-2",
+      "title": "CRM 데이터로 상위 20% 공략하기",
+      "kind": "실습",
+      "tool": "ChatGPT (엑셀 파일 업로드)",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 3 · 우선순위 매기기 (비식별 엑셀 첨부 후)",
+        "x": "첨부한 엑셀 파일은 내 고객 명단이야(이름은 번호로 대체). 이 고객들을 지금 연락했을 때 계약이나 재구매로 이어질 가능성이 높은 순으로 우선순위를 매기고, 왜 그 순서인지 이유를 한 줄씩 붙여서 표로 정리해줘.",
+        "note": "실명·연락처는 반드시 번호로 바꾼 사본을 올립니다. 원본은 따로 보관하세요."
+       },
+       {
+        "t": "next",
+        "l": "STEP 4 · 상위 20%만 추리기",
+        "x": "이 우선순위에서, 지금 당장 집중해야 할 상위 그룹(전체의 약 20%)만 따로 추려줘. 이번 주에 이 고객들부터 연락한다면 누구를, 어떤 순서로, 어떤 이야기로 접근하면 좋을지도 알려줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 5 · 고객군으로 묶기",
+        "x": "이 고객들을 비슷한 특징끼리 그룹으로 묶어서, 각 그룹에 어떤 차종이나 어떤 접근 방법이 어울릴지도 정리해줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 6 · 개별 액션플랜",
+        "x": "아까 뽑은 상위 그룹 고객들에 대해, 다음 연락 때 꺼낼 첫 마디와 미리 준비하면 좋을 자료를 한 명(번호)씩 정리해줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 7 · 타이밍·이탈 위험",
+        "x": "이 명단에서 ① 지금 당장은 아니어도 특정 시점(차량 교체 주기 등)에 연락하면 좋을 고객과 그 타이밍, ② 지금 챙기지 않으면 경쟁사로 이탈할 위험이 있는 고객을 각각 짚어줘."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "3. 소개가 저절로 들어오는 한마디",
+    "practices": [
+     {
+      "code": "3-1",
+      "title": "고객 소개 유도 메시지 + 나만의 챗봇",
+      "kind": "실습",
+      "tool": "ChatGPT · Gemini 젬스 · ChatGPT GPTs",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 소개 요청 카톡 만들기",
+        "x": "너는 기아 오토컨설턴트야. 3개월 전 카니발을 출고한 고객에게, 주변에 차를 알아보는 지인이 있으면 소개해달라고 부탁하려고 해. 부담스럽지 않고 자연스러운, 고맙다는 마음이 담긴 카톡 메시지로 써줘."
+       },
+       {
+        "t": "fix",
+        "l": "STEP 2 · 전체 말투 다듬기",
+        "x": "조금 더 가볍고 친근한 말투로 바꿔줘. 이모티콘도 하나 정도만 넣어서."
+       },
+       {
+        "t": "fix",
+        "l": "STEP 2 · 문장 하나만 고치기 (캔버스에서 해당 문장 선택 후)",
+        "x": "이 인사말만 좀 더 친근하게 바꿔줘."
+       },
+       {
+        "t": "inst",
+        "l": "STEP 4 · 젬(Gem) 지침 칸에 넣을 문구",
+        "x": "너는 기아 오토컨설턴트야. 고객 상황(차종, 구매 시기, 관계)을 알려주면, 부담 없이 지인 소개를 부탁하는 따뜻한 카톡 메시지를 만들어주는 챗봇 지침을 설계해줘."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "n": 3,
+  "stage": "2단계 · 고객 접근",
+  "title": "왜 내 카톡은 읽히지 않을까",
+  "chapters": [
+   {
+    "title": "2. 고객 유형만 알면 첫마디가 보인다",
+    "practices": [
+     {
+      "code": "2-2",
+      "title": "고객 유형별 접근 전략 + 성향 진단 도구",
+      "kind": "실습",
+      "tool": "ChatGPT · Gemini 캔버스",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 프롬프트를 AI에게 대신 쓰게 하기 (메타 프롬프트)",
+        "x": "쏘렌토를 상담하러 올 고객을 ‘가격만 보는 고객, 비교하는 고객, 브랜드 믿는 고객, 이렇게 다른 전략 유형별로 나눠서, 유형별 상담 접근 전략을 뽑고 싶어. 이걸 잘 뽑아줄 수 있는 프롬프트를 자세하게 만들어줘."
+       },
+       {
+        "t": "input",
+        "l": "STEP 3 · 예상 반론 ① 비교형",
+        "x": "비교형 고객이 쏘렌토 상담 중에 할 법한 까다로운 반론이나 질문을 3가지 뽑고, 각각에 대한 대응 방향을 짧게 알려줘.",
+        "note": "세 유형을 한 번에 묻지 말고 하나씩 따로 물어야 답이 날카로워집니다."
+       },
+       {
+        "t": "next",
+        "l": "STEP 3 · 예상 반론 ② 가격 중시형",
+        "x": "이번엔 가격 중시형 고객이 쏘렌토 상담 중에 할 법한 까다로운 반론이나 질문을 3가지 뽑고, 각각에 대한 대응 방향을 짧게 알려줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 3 · 예상 반론 ③ 브랜드 신뢰형",
+        "x": "이번엔 브랜드 신뢰형 고객이 쏘렌토 상담 중에 할 법한 반론이나 질문을 3가지 뽑고, 각각에 대한 대응 방향을 짧게 알려줘."
+       },
+       {
+        "t": "build",
+        "l": "STEP 4 · 구매 성향 진단 테스트 만들기",
+        "x": "고객이 태블릿으로 30초 안에 체크할 수 있는, 간단하고 재미있는 '자동차 구매 성향 테스트'를 만들어줘. 질문 10개, 각 질문은 선택지 3개. 답변 결과에 따라 가격 중시형·비교형·브랜드 신뢰형 중 어디에 가까운지 알려주는 방식으로. HTML로 출력해줘.",
+        "note": "Gemini 캔버스를 켜고 입력합니다. 결과는 대화를 여는 참고용입니다. 최종 판단은 고객을 만난 내가 합니다."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "3. 한 번 온 고객, 다시 오게 만들기",
+    "practices": [
+     {
+      "code": "3-1",
+      "title": "방문 고객 초기 응대 (음성 역할극 포함)",
+      "kind": "실습",
+      "tool": "ChatGPT 음성 모드 · Gemini Live",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 입장 순간 첫마디",
+        "x": "매장에 들어온 고객이 'EV6 보여주세요'라고 말했어. 이 고객에게 건넬 첫 응대 멘트를 만들어줘. 부담 주지 않으면서 자연스럽게 대화를 여는 톤으로."
+       },
+       {
+        "t": "input",
+        "l": "STEP 3 · 탐색 중 건네는 말",
+        "x": "고객이 EV6 주위를 둘러보고 있어. 부담스럽지 않게 곁에서 한마디 건네면서, 자연스럽게 대화를 이어갈 수 있는 멘트를 만들어줘."
+       },
+       {
+        "t": "input",
+        "l": "STEP 4 · 니즈를 여는 질문",
+        "x": "EV6를 보러 온 고객에게, 부담스럽지 않게 니즈를 파악할 수 있는 질문 3가지를 만들어줘. 예산을 직접 묻지 말고, 용도·가족 구성·주행 패턴 같은 걸 자연스럽게 알아낼 수 있는 질문으로."
+       },
+       {
+        "t": "input",
+        "l": "STEP 5 · 초기 응대 흐름 통째로",
+        "x": "EV6를 보러 온 고객을 처음 맞이해서 니즈를 파악하기까지, 초기 응대 대화의 전체 흐름을 순서대로 만들어줘. 입장 인사, 탐색 중 건네는 말, 니즈를 여는 질문 순으로. 각 단계가 자연스럽게 이어지게."
+       }
+      ]
+     },
+     {
+      "code": "3-2",
+      "title": "관심 고객 팔로업 & 시승·방문 메모 도구",
+      "kind": "실습",
+      "tool": "ChatGPT · Gemini 캔버스",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 상담 내용을 근거로 팔로업",
+        "x": "지난주에 매장에 와서 쏘렌토를 상담한 고객이야. 가족이 넷이고, 공간은 마음에 들어했는데 가격 때문에 망설이다 돌아갔어. 이 고객에게 다시 방문을 유도하는 팔로업 카톡을 써줘."
+       },
+       {
+        "t": "input",
+        "l": "STEP 2 · 팔로업 타이밍 설계",
+        "x": "매장에서 상담만 하고 돌아간 고객에게, 재방문을 유도하는 팔로업을 언제 몇 번에 나눠 보내면 좋을지 타이밍을 설계해줘. 각 시점마다 어떤 내용의 메시지를 보내면 좋을지도 짧게 알려줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 3 · 각도 ① 망설인 지점 해소",
+        "x": "이 고객이 가격 때문에 망설였어. 재촉하지 말고, 가격 부담을 덜 수 있는 방법을 알려주는 각도로 팔로업을 써줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 3 · 각도 ② 새로운 소식",
+        "x": "이번엔 가격 얘기 말고, 이 고객이 관심 가질 만한 새로운 소식(신규 색상 입고, 시승 이벤트 등)을 전하는 각도로 팔로업을 써줘."
+       },
+       {
+        "t": "build",
+        "l": "STEP 5 · 시승·방문 상담 메모 도구 만들기",
+        "x": "매장에 방문한 고객을 상담한 뒤 빠르게 정리할 수 있는 1페이지 메모 양식을 만들고 싶어. 고객 상황, 관심 차종, 상담에서 나온 니즈, 망설인 부분, 다음 팔로업 시점을 기록할 수 있게. 태블릿으로 쓸 수 있는 HTML 형태로 만들어줘. 입력한 내용은 자동으로 저장되고, 원할 때 엑셀 파일로 내보낼 수 있게 해줘. 그리고 입력한 메모를 이름·연락처 같은 개인정보는 빼고, AI에게 팔로업을 요청하기 좋은 요약 문장으로 정리해서 화면 상단에 보여주고, 그걸 복사하는 버튼도 넣어줘."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "n": 4,
+  "stage": "3단계 · 고객 상담",
+  "title": "스펙 말고 '이 고객의 차'를 팔아라",
+  "chapters": [
+   {
+    "title": "1. 스펙 말고 '이 고객의 차'를 팔아라",
+    "practices": [
+     {
+      "code": "1-3",
+      "title": "맞춤 차량 추천 (Gemini 노트북)",
+      "kind": "실습",
+      "tool": "Gemini 노트북",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "① 먼저 그냥 물어보기 (근거 없는 답 보여주기)",
+        "x": "4인 가족, 예산 4천만 원 중반, 한 달에 두세 번 왕복 300킬로 장거리를 다니는 고객에게 맞는 기아 차를 추천해줘."
+       },
+       {
+        "t": "input",
+        "l": "② 노트북을 붙이고 다시 묻기 (완성 프롬프트)",
+        "x": "지금 고객 한 분을 상담 중이고, 이 고객에게 맞는 차를 추천해야 해.\n고객은 40대 부부에 초등학생 아이 둘, 네 식구야. 예산은 4천만 원 중반. 평일 출퇴근은 가깝고, 한 달에 두세 번 처가에 왕복 300킬로 장거리를 다녀. 하루 평균 40킬로 정도 타.\n추천 차종 두세 개를 표로 만들어줘. 각 차종마다 트림, 넣을 옵션, 이 고객에게 왜 맞는지 근거를 세 줄로.\n노트북 자료 안에서만 답하고, 없는 내용은 지어내지 마."
+       }
+      ]
+     },
+     {
+      "code": "1-4",
+      "title": "차량 설명 스토리텔링",
+      "kind": "실습",
+      "tool": "Gemini (1-3에서 이어지는 같은 대화)",
+      "prompts": [
+       {
+        "t": "next",
+        "l": "스펙에 의미를 붙이기",
+        "x": "방금 추천한 차종을, 이 고객에게 설명하는 이야기로 만들어줘. 노트북에 있는 스펙을 하나씩 제시하고, 그 스펙이 이 고객 캠핑 생활에서 구체적으로 뭘 의미하는지 바로 이어서 설명해줘. 스펙을 빼지 말고 숫자는 그대로 두되, 과장하거나 감성적으로 부풀리지 말고 사실에 근거해서.",
+        "note": "앞 실습(1-3) 대화창을 닫지 말고 그대로 이어서 입력합니다. 창을 새로 열면 고객 정보를 처음부터 다시 줘야 합니다."
+       },
+       {
+        "t": "next",
+        "l": "같은 스펙, 다른 고객",
+        "x": "이번엔 매일 왕복 100킬로 장거리 출퇴근하는 직장인 고객이라고 하고, 같은 EV5를 설명해줘."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "2. 견적서, 계산기로 자동화하기",
+    "practices": [
+     {
+      "code": "2-1",
+      "title": "EV 실구매가·5년 TCO 계산기 & 상담견적서",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini (HTML 생성)",
+      "prompts": [
+       {
+        "t": "build",
+        "l": "STEP 1 · 계산기 틀 만들기",
+        "x": "전기차 실구매가와 5년 유지비를 계산하는 HTML 계산기를 만들어줘. 입력칸은 이렇게: 차량 가격, 국고보조금, 지자체보조금, 연간 주행거리, 전기요금 단가. 계산은 — 실구매가는 차량가에서 두 보조금을 뺀 값, 5년 유지비는 주행거리와 전기요금으로 계산한 충전비에 세금·보험을 더한 값. 결과로 실구매가랑 5년 총비용을 보여줘.",
+        "note": "숫자는 넣지 않습니다. 보조금·차량가는 무공해차 통합누리집(ev.or.kr)과 기아 공식 가격표에서 확인해 직접 입력합니다."
+       },
+       {
+        "t": "next",
+        "l": "STEP 2 · 기본값과 화살표 붙이기",
+        "x": "입력칸에 기본값을 미리 넣어두고, 옆에 위아래 화살표를 붙여서 조절할 수 있게 해줘. 전기요금은 10원 단위, 보조금은 10만원 단위로."
+       },
+       {
+        "t": "next",
+        "l": "STEP 3 · 공식 자료 바로가기 버튼 달기",
+        "x": "무공해차 통합 누리집과 ev.or.kr 사이트, 오피넷 바로가기 버튼 하단에 추가해줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 4 · 견적서를 PDF로 뽑기",
+        "x": "이 계산 결과를 고객에게 보여줄 견적서 형태로 정리해서 1장의 pdf 파일로 생성하는 기능을 넣고 버튼도 추가해줘. 차종, 실구매가, 5년 유지비를 항목별로 깔끔하게, 인쇄하기 좋게. 맨 위에 상담 날짜랑 고객명 넣을 자리도 만들어줘."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "3. 경쟁차종 비교표, 챗봇으로 끝낸다",
+    "practices": [
+     {
+      "code": "3-1",
+      "title": "기아 전용 비교 챗봇 만들기 (Gemini Gems)",
+      "kind": "실습",
+      "tool": "Gemini Gems (지식파일 업로드)",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 원하는 걸 말하고 지침을 다듬게 하기",
+        "x": "경쟁차와 기아 차를 비교해주는 챗봇을 만들려고 해. 내가 원하는 걸 편하게 말해볼게. 고객이 경쟁차를 물어보면 기아 관점에서 비교해서 답해주면 좋겠고, 없는 얘기를 지어내면 안 되고 사실만 말해야 해. 가격이랑 안전, 공간 위주로 비교했으면 하고, 상담사인 내가 참고할 수 있게 근거도 같이 대줬으면 해. 말투는 너무 딱딱하지 않게. 이걸 챗봇 지침으로 만들어주고, 내가 놓친 게 있으면 물어보면서 지침을 다듬어줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 2 · 코드블록으로 받기",
+        "x": "지금 만든 지침을, 마크다운 기호 없이 그대로 복사할 수 있게 코드블록으로 출력해줘."
+       },
+       {
+        "t": "input",
+        "l": "STEP 3 · 완성한 챗봇 첫 대화",
+        "fill": 1,
+        "x": "쏘렌토랑 (경쟁차 이름) 비교해줘."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "n": 5,
+  "stage": "3단계 · 고객 상담(설득)",
+  "title": "'지금 사야 하는 이유'를 설계하다",
+  "chapters": [
+   {
+    "title": "1. '지금 사야 하는 이유'를 설계하다",
+    "practices": [
+     {
+      "code": "1-2",
+      "title": "고객 설득 논리 생성 + 교체 가치 비교",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 2 · 상담 재료 정리 (먼저 붙여넣기)",
+        "fill": 1,
+        "x": "[추천] 4인 가족(40대 부부 + 초등학생 둘) / 하루 40km 출퇴근\n      월 2~3회 왕복 300km 장거리 / 주말 캠핑 → EV5 추천\n   근거 1. 4인 가족 + 캠핑 짐 → 2열 폴딩 시 풀플랫 적재 공간 확보\n   근거 2. 하루 40km는 가정 충전으로 3~4일에 한 번이면 충분\n   근거 3. 월 2~3회 왕복 300km 장거리도 1회 충전으로 커버\n\n[비용] 차량가 5,180만 / 국고보조금 -380만 / 지자체보조금 -250만\n      → 실구매가 4,550만 원\n      5년 유지비 1,290만 원 (충전비 480 / 세금·보험 620 / 정비 190)\n      5년 총비용 5,840만 원\n\n[비교] 경쟁 수입 전기 SUV 대비 — 실구매가 약 1,900만 원 낮음 /\n      2열 폴딩 적재 공간 우위 / 전국 서비스망·배터리 보증 조건\n\n[지금 타는 차] 2018년식 쏘렌토 디젤, 8년째, 15만km\n      최근 정비소 방문이 잦아지고 연비가 떨어짐. 현재 중고 시세 720만 원"
+       },
+       {
+        "t": "input",
+        "l": "STEP 3 · 재료 뒤에 이어서 지시하기",
+        "x": "이 자료로 이 고객에게 「왜 지금, 이 차인가」를 설명하는 설득 논리를 만들려고 해. 순서는 공감 → 데이터 → 출처. 이걸 잘 뽑아줄 프롬프트를 만들어줘. 내가 빠뜨린 정보가 있으면 그것도 같이 짚어줘."
+       },
+       {
+        "t": "build",
+        "l": "STEP 5 · 교체 가치 비교 한 장 만들기",
+        "x": "이 내용을 고객에게 보여줄 한 장으로 정리해줘. 왼쪽은 「지금 차를 3년 더 탈 때」, 오른쪽은 「지금 바꿀 때」. 정비비, 연료비, 중고 시세, 월 부담을 항목별로 나란히. 숫자는 내가 직접 넣을 수 있게 입력칸으로 만들고, HTML로."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "2. 반박은 거절이 아니라 기회다",
+    "practices": [
+     {
+      "code": "2-2",
+      "title": "반박 카드덱 & 반박 대응 챗봇",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini → Gemini 젬스",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 반박 하나에 3단 멘트 만들기",
+        "x": "고객이 EV5를 보시면서 「배터리 화재가 걱정된다」고 했어. 이 걱정에 답하는 상담 멘트를 만들어줘. 반드시 세 단계로: ①고객 걱정을 먼저 받아주는 공감 한 문장 ②사실로 짚어주는 데이터 ③그 데이터의 출처. 반박하거나 가르치는 톤은 쓰지 말고, 과장이나 단정도 하지 마. 출처는 내가 직접 확인할 수 있게, 어떤 기관의 어떤 자료를 봐야 하는지 알려줘."
+       },
+       {
+        "t": "build",
+        "l": "STEP 3 · 반박 카드덱 한 장으로",
+        "x": "지금까지 만든 반박 대응 멘트들을, 상담 중에 바로 꺼내 볼 수 있는 카드 형태의 HTML 한 페이지로 만들어줘. 카테고리는 배터리·충전·가격·중고시세 네 개. 카드를 누르면 공감·데이터·출처 세 줄이 펼쳐지게. 태블릿에서 한 손으로 보기 좋게."
+       },
+       {
+        "t": "input",
+        "l": "STEP 4 · 반박 대응 챗봇 지침 설계",
+        "x": "고객 반박에 답해주는 챗봇을 만들려고 해. 지식파일로는 내가 직접 만들어 검증한 반박 카드덱을 넣을 거야. 이 챗봇은 어떤 질문이 와도 반드시 ①공감 ②데이터 ③출처 세 단계로만 답해야 해. 이 조건을 담은 챗봇 지침을 만들어주고, 내가 놓친 게 있으면 물어봐줘. 복사하기 쉽게 코드블록으로 출력해."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "n": 6,
+  "stage": "4단계 · 계약 및 출고",
+  "title": "'아, 이제 이해됐어요'를 만드는 법",
+  "chapters": [
+   {
+    "title": "1. '아, 이제 이해됐어요'를 만드는 법",
+    "practices": [
+     {
+      "code": "1-2",
+      "title": "계약 조건 설명 자동화 — 설명 코치 챗봇",
+      "kind": "실습",
+      "tool": "Gemini 젬스",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "프롬프트 ① · 챗봇 지침을 AI에게 설계시키기",
+        "x": "너는 Gemini 젬(맞춤 챗봇)의 지침을 설계해 주는 전문가다.\n내가 만들려는 챗봇은 이렇다.\n[사용자] 기아 오토컨설턴트인 나 자신이다. 고객이 아니다.\n[목적] 내가 고객에게 계약 조건을 설명하는 실력을 다듬는 것. 설명문을 대신 써 주는 챗봇이 아니다.\n[동작 순서]\n 1. 내가 \"설명할 것\"과 \"고객 상황\"을 짧게 입력한다. 예) 리스 / 60대, 대출을 아주 싫어함\n 2. 챗봇은 설명을 대신 해 주지 않는다. 대신 나에게 두 가지 중 하나를 고르게 한다.\n      ① 내가 먼저 설명해 보겠다\n      ② 바로 예시 설명부터 보겠다\n    ①을 고르면 \"먼저 설명해 보세요\"라고 요청하고 기다린다.\n    ②를 고르면 예시 설명을 먼저 보여준 뒤, \"직접 해 보시고 코칭받아 보시겠습니까?\"라고 한 번만 권한다. 원하지 않으면 더 권하지 말고 그대로 진행한다.\n 3. 내가 평소 하던 대로 설명을 입력한다.\n 4. 챗봇이 내 설명을 읽고 코칭한다.\n 5. 마지막에 이 고객에게 바로 쓸 수 있는 결과물을 준다.\n이 챗봇의 지침(시스템 프롬프트)을 작성해 줘. 그리고 이 지침에 반드시 들어가야 할 항목이 무엇인지도 함께 알려줘."
+       },
+       {
+        "t": "next",
+        "l": "프롬프트 ② · 빠진 규칙을 채우고 출력 형식 못 박기",
+        "x": "아래 규칙을 지침에 반드시 포함해서, 지침 전체를 다시 줘.\n[받아쓰기 처리]\n- 내 설명은 음성을 받아쓴 것이라 \"어\", \"그니까\" 같은 말버릇이 섞여 있다. 말버릇과 문장 구조는 평가하지 마라.\n[반드시 점검할 두 가지]\n- 불안 : 고객의 불안을 짚었는가?(빚을 지는 것 같다 / 내 차가 아니다 / 목돈이 아깝다)\n- 오해 : 고객의 오해를 풀었는가?(리스는 무조건 손해다 / 이자는 다 사기다 / 중도에 팔지도 못한다)\n[지켜야 할 선]\n- 어느 방식이 유리하다고 단정하지 마라. 판단은 내가 한다.\n- 내가 주지 않은 숫자(금리·잔가율·수수료)를 만들지 마라.\n- 세금이나 법률 판단은 하지 말고 \"확인 필요\"로 표시해라.\n[매번 이 네 가지를 이 순서로 답할 것]\n 1. 잘한 점 — 구체적으로 하나만. 점수는 매기지 마라.\n 2. 놓친 것 — 두 개 이내. 각 항목 앞에 [불안] 또는 [오해] 를 붙여 구분할 것.\n 3. 고쳐 쓴 설명 — 내 설명을 이 고객에게 맞게 다시 쓴 것. 고객 앞에서 그대로 말할 수 있는 문장으로.\n    \"압도적\", \"절대\", \"무조건\", \"확실히\" 같은 단정과 \"~가 더 유리합니다\" 같은 결론은 넣지 마라.\n 4. 고객에게 보낼 카톡 5줄 — 고객이 가족에게 그대로 보여줄 수 있는 문장."
+       },
+       {
+        "t": "inst",
+        "l": "STEP 4 · 실패했을 때 지침 맨 앞에 추가할 문장",
+        "x": "너는 어떤 경우에도 설명부터 시작하지 않는다.\n사용자가 \"설명할 것 / 고객 상황\"을 입력하면 반드시 아래 두 가지 중 무엇을 할지 먼저 묻고 기다린다.\n① 내가 먼저 설명해 보겠다\n② 바로 예시 설명부터 보겠다\n사용자가 고르기 전에는 어떤 설명도 하지 않는다."
+       }
+      ]
+     },
+     {
+      "code": "1-4",
+      "title": "계약 전 체크리스트 & 서류 안내문 만들기",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini (매뉴얼 업로드)",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 2 · 올린 자료대로 표로 정리시키기",
+        "x": "올린 자료에서 계약 서류를 조건별로 표로 정리해 줘. 아직 HTML은 만들지 마.\n- 자료에 있는 서류만. 없는 걸 추가하지 마.\n- 자료에 적힌 조건 구분을 그대로 옮겨.\n- 자료에 조건이 안 적혀 있는 서류는 '공통'에 넣고 옆에 (조건 미표기)라고 써."
+       },
+       {
+        "t": "build",
+        "l": "STEP 3 · 인쇄용 한 장으로 만들기",
+        "x": "좋아, 이 표대로 HTML 파일 하나로 만들어 줘.\n화면에서 확인하고, 인쇄해서 고객에게 줄 거야.\n- 위에서 조건을 고르면 해당하는 서류만 아래 목록에 뜨게\n- 목록은 A4 한 장에 인쇄되게, 글자 크게\n- 서류마다 손으로 체크할 빈 네모, 담당(고객 / 나) 표시\n- 인쇄할 때는 조건 고르는 부분은 나오지 말고 목록만 나오게\n- 맨 위에 고객명과 날짜를 적을 빈 줄"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "2. 출고 당일, 고객이 자랑하게 만들기",
+    "practices": [
+     {
+      "code": "2-2",
+      "title": "출고 안내 및 커뮤니케이션",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 출고 당일 메시지 두 통 만들기",
+        "fill": 1,
+        "x": "이번 주 토요일 오전 11시에 고객이 차를 받으러 오셔.\n고객 : 40대 초반, 첫 아이 돌 지났음\n차종 : 카니발, 패밀리카로 구매\n상담할 때 \"아이 데리고 캠핑 가고 싶다\"고 하셨어\n출고 당일 보낼 메시지를 두 통으로 만들어 줘.\n1) 축하 메시지\n   - 고객이 캡처해서 SNS에 올려도 부끄럽지 않은 톤\n   - 3~4줄, 이모지는 하나만\n   - 차 자랑이 아니라 이 고객 이야기가 들어가게\n2) 안내 메시지\n   - 시간, 장소, 가져오실 것. 사무적으로 짧게"
+       },
+       {
+        "t": "build",
+        "l": "STEP 3 · 출고 축하 카드 만들기",
+        "x": "출고 당일 보낼 축하 메시지를 매번 쓰기 번거로워서, 버튼 몇 번으로 문구가 나오는 카드를 만들고 싶어. HTML 파일 하나로 만들어 줘.\n\n[고를 것 — 버튼으로]\n- 상황 : 첫 차 / 아이·가족 / 캠핑·여행 / 사업용 / 오래 기다리심 / 차 교체\n- 톤   : 담백하게 / 따뜻하게 / 가볍게\n\n[나올 것]\n- 고른 조합에 맞는 축하 메시지 2~3개\n- 메시지마다 '복사' 버튼\n- 맨 위에 고객 성함 넣는 칸 (넣으면 메시지에 반영)\n\n[조건]\n- 메시지는 HTML 안에 미리 다 넣어 둬. 실행할 때 AI를 부르지 마. 인터넷 없어도 돌아가게.\n- 3~4줄, 이모지는 하나만\n- 차 자랑이 아니라 고객 이야기가 들어가게\n- 아래쪽에 안내 메시지 틀도 하나 — 시간·장소·준비물을 빈칸으로 두고 복사 버튼\n- 태블릿 세로 화면, 글자 크게"
+       }
+      ]
+     },
+     {
+      "code": "2-3",
+      "title": "껄끄러운 상황 대응 (출고 지연·옵션 변경)",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 출고 지연 대응 메시지 + 전화 대본",
+        "fill": 1,
+        "x": "고객에게 출고 일정 변경을 알려야 해.\nEV3 출고가 부품 수급 문제로 2주 밀렸어.\n고객은 타던 차를 이미 처분하셔서 지금 차가 없으셔.\n계약할 때 \"이달 안에는 받으시게 하겠다\"고 말씀드렸었고.\n\n카톡 메시지 5문장 이내와, 전화로 말할 때 대본을 만들어 줘.\n\n- 사실 먼저, 이유 다음, 내 조치와 다음 연락 시점으로 끝맺을 것\n- 사과는 한 번만\n- 변명하거나 남 탓 하지 말 것"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "n": 7,
+  "stage": "5단계 · 고객 관계 유지",
+  "title": "잊히지 않는 오토컨설턴트의 비밀",
+  "chapters": [
+   {
+    "title": "1. 잊히지 않는 오토컨설턴트의 비밀",
+    "practices": [
+     {
+      "code": "1-2",
+      "title": "고객 관리 및 재구매 유도",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini (일반 채팅)",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 고객 정보만 주고 물어보기",
+        "fill": 1,
+        "x": "[고객 정보]\n- 고객: 김○○ (40대, 4인 가족)\n- 구매 차량: 쏘렌토 (가솔린)\n- 출고일: 2022년 10월\n- 현재 주행거리: 약 6만 5천 km\n- 상담 이력: 출고 후 별도 연락 없음\n\n이 고객에게 앞으로 1년간 언제, 어떤 내용으로 연락하면 좋을지\n연락 시점과 시점별 메시지 초안을 표로 정리해 줘.\n[조건]\n- 판매를 목적으로 하지 않는 접점과, 재구매를 제안하는 접점을 구분해줘.\n- 각 시점마다 '왜 이때인지'를 한 줄로 적어줘."
+       },
+       {
+        "t": "next",
+        "l": "STEP 2 · 확인된 일정을 넣고 다시 요청",
+        "fill": 1,
+        "x": "아래는 제가 확인한 이 고객 차량의 실제 일정이야.\n이 정보를 반영해서 연락 계획을 다시 정리해줘.\n[확인된 일정]\n- 일반부품·차체 보증: 3년 / 6만km → 주행거리 기준으로 이미 만료\n- 엔진·동력전달계통 보증: 5년 / 10만km → 2027년 10월 또는 10만km 도달 시 만료\n- 자동차 정기검사: 2022년 등록 → 등록 후 4년, 2026년 10월이 첫 검사\n  (검사 가능 기간: 만료일 전 90일 ~ 후 31일)\n[조건]\n- 고객이 실제로 비용을 지출하게 되는 시점을 우선 접점으로 배치해줘.\n- 각 접점은 '안내'가 먼저, '제안'은 그 다음 순서로 작성해줘.\n- 확정되지 않은 금액이나 혜택은 쓰지말 것."
+       },
+       {
+        "t": "next",
+        "l": "STEP 3 · 결과 검증하고 수정본 받기",
+        "x": "위에서 작성한 메시지들을 아래 기준으로 점검해서 수정본을 줘.\n1. 확정되지 않은 금액·혜택·할인 표현이 있으면 삭제\n2. '최고', '무조건', '절대' 같은 과장 표현이 있으면 사실 표현으로 교체\n3. 고객이 부담을 느낄 수 있는 판매 권유 문장은 안내 문장으로 완화"
+       }
+      ]
+     },
+     {
+      "code": "1-3",
+      "title": "기념일·주기 리마인드 관리 도구 만들기",
+      "kind": "실습",
+      "tool": "Gemini 캔버스 + Gemini 이미지 생성",
+      "prompts": [
+       {
+        "t": "build",
+        "l": "STEP 1 · 빈 관리 도구 만들기",
+        "x": "기아 오토 컨설턴트의 고객 관리에 사용할 1페이지 웹 도구를 HTML 파일 하나로 만들어줘.\n고객 데이터는 제가 완성된 화면에서 직접 입력하겠습니다. 빈 상태로 만들어 줘.\n[화면 구성]\n1) 월 단위 달력 — 이번 달이 기본으로 보이고, 이전·다음 달 이동 가능\n2) 달력 오른쪽 위에 [＋ 고객 추가] 버튼\n3) 달력 아래 [이번 달 연락할 고객] 목록\n\n[고객 추가 입력 항목]\n고객명 / 연락처 / 차종 / 생년월일 / 출고일 / 최초 등록일 / 최근 점검일 / 주행거리 / 메모\n→ 저장한 고객은 목록에서 수정·삭제할 수 있게\n\n[달력에 표시할 항목] — 입력값에서 자동으로 계산해 배지로 표시\n- 생일 : 생년월일 기준 매년\n- 출고 기념일 : 출고일 기준 매년 (1주년, 2주년… 회차 표시)\n- 정기검사 : 최초 등록일이 2024년 12월 31일 이전이면 등록 후 4년째,\n             2025년 1월 1일 이후면 등록 후 5년째가 첫 검사.\n             이후 2년마다. 검사 가능 기간은 만료일 전 90일부터 표시\n- 점검 : 최근 점검일로부터 12개월 경과 시점\n\n[동작]\n- 달력에서 날짜를 누르면 그날 해당하는 고객과 항목이 뜰 것\n- 각 항목에 [메시지 초안]과 [복사] 버튼\n- [이번 달 연락할 고객]은 가까운 날짜 순으로 정렬\n\n[조건]\n- 입력한 고객 정보가 브라우저에 저장되어, 다시 열어도 유지될 것\n- 이 파일은 인터넷 연결 없이 혼자 실행됩니다. 외부 링크나 외부 데이터를 쓰지 말 것.\n- 태블릿 세로 화면 기준으로 글씨를 크게, 버튼을 넉넉하게\n- 금액·할인·혜택에 관한 문구는 어디에도 넣지 말 것"
+       },
+       {
+        "t": "next",
+        "l": "STEP 3 · 메시지 초안 항목별로 다르게",
+        "x": "메시지 초안을 아래와 같이 항목별로 다르게 만들어줘.\n고객명과 차종은 입력값이 자동으로 들어가게 해줘.\n- 생일 : 짧고 담백한 축하 인사. 차량 이야기는 넣지 말 것\n- 출고 기념일 : 축하 + 그동안의 주행 소감을 묻는 문장\n- 정기검사 : 검사 시기가 다가온다는 안부 인사 중심.\n             차량 상태에 불편한 점이 없는지 묻는 문장을 포함.\n             검사 절차나 검사소를 안내하는 문장은 넣지 말 것\n- 점검 : 마지막 점검 이후 경과 안내 + 차량 상태를 확인하는 문장\n\n[조건]\n- 각 3~4문장, 존댓말\n- 판매 권유 문장은 넣지 말 것\n- 확정되지 않은 금액·할인·혜택 표현을 넣지 말 것"
+       },
+       {
+        "t": "next",
+        "l": "STEP 4 · 저장과 화면 보완",
+        "x": "아래 세 가지를 보완해 줘.\n1. 입력한 고객 정보가 브라우저를 닫았다 다시 열어도 유지되게 해줘.\n2. [명단 내보내기] 버튼을 만들어, 전체 고객 정보를 텍스트로 복사할 수 있게 해줘.\n3. 태블릿 세로 화면에서 달력과 [이번 달 연락할 고객]이 스크롤 없이 한 화면에 보이도록 크기를 조정해줘."
+       },
+       {
+        "t": "input",
+        "l": "STEP 5 · 축하 이미지 만들기 ① 기본",
+        "x": "출고 1주년 축하 이미지를 만들어 줘.\n- 형식: 정중하고 깔끔한 축하 카드, 과장되지 않은 분위기\n- 소재: 도로 위의 SUV, 차분한 색감\n- 이미지 안에 넣을 문구: \"출고 1주년을 축하드립니다\"\n  → 이 한 문장만 넣고, 다른 글자는 넣지 말 것.\n- 세로형 (메신저 전송용)\n- 첨부한 이미지의 차를 변형하지 말고 그대로 적용해서 만들어줘."
+       },
+       {
+        "t": "input",
+        "l": "STEP 5 · 축하 이미지 만들기 ② 차량 사진 첨부 후",
+        "x": "이 차에 고깔모자를 씌우고 축하 분위기로 바꿔줘.\n텍스트의 글꼴을 캘리그라피 스타일로."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "2. 10년 고객은 이렇게 만들어진다",
+    "practices": [
+     {
+      "code": "2-2",
+      "title": "VIP 고객 관리 시나리오",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 어떻게 관리하면 좋을지 물어보기",
+        "x": "고객을 두 그룹으로 나눠서 관리하려고 해.\nA. 구매이력 VIP — 나에게 두 번 이상 샀거나, 지인을 소개해준 고객\nB. 잠재 VIP — 아직 한 번 샀고 소개도 없지만, 반응이 좋아 관계를 키우고 싶은 고객\n각각 어떻게 관리하면 좋을까?"
+       },
+       {
+        "t": "next",
+        "l": "STEP 2 · 내 고객에 적용하기",
+        "fill": 1,
+        "x": "방금 알려준 방식으로 실제 내 고객 관리 계획을 만들어줘.\n\n[A. 구매이력 VIP]\n김○○ / 쏘렌토 / 2018년 스포티지 후 2022년 재구매 / 지난해 지인 1명 소개 / 주말 캠핑\n박○○ / 카니발 / 2021년 구매 / 소개 2건 / 사업체 운영, 법인차 관심\n\n[B. 잠재 VIP]\n최○○ / EV6 / 2024년 첫 구매 / 소개·재구매 없음 / 문의가 잦고 답이 빠름\n\n각 고객별로 앞으로 1년 계획을 만들어줘.\n\n[조건]\n- 고객별 분기 단위 표로 만들 것\n- 각 접점의 목적을 '안부 / 정보 제공 / 소개 감사 / 재구매 제안' 중 하나로 표시할 것\n- 소개 요청은 고객당 1년에 한 번을 넘지 말 것\n- 내가 임의로 줄 수 없는 할인이나 사은품은 넣지 말 것\n- 재구매 제안은 업셀·크로스셀·갱신 중 어디에 해당하는지 표시할 것"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "3. 떠난 고객도 다시 돌아오게",
+    "practices": [
+     {
+      "code": "3-1",
+      "title": "재구매·차량 교체 예측",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini (새 대화창)",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 교체 시점 예측하고 순서 매기기",
+        "fill": 1,
+        "x": "아래는 출고 이후 한동안 연락이 끊긴 고객들이야.\n\n김○○ / 쏘렌토 가솔린 / 2020년 3월 출고 / 주행 12만km\n박○○ / 셀토스 / 2022년 6월 출고 / 주행 4만km\n최○○ / EV6 / 2022년 11월 출고 / 주행 14만km\n정○○ / 카니발 / 2019년 9월 출고 / 주행 8만km\n\n누가 차량 교체를 검토할 시점인지 순서를 매겨줘.\n\n[판단에 쓸 기준]\n- 비사업용 승용차 평균 주행거리는 연 1만 1천km, 전기차는 그 두 배 수준\n- 일반부품 보증 3년/6만km, 엔진·동력전달 보증 5년/10만km\n- EV 배터리·전용부품 보증 10년/16만km\n- 정기검사는 2024년 12월 31일 이전 등록이 4년, 이후 등록이 5년, 그다음 2년마다\n\n[조건]\n- 고객별로 '지금 어떤 상태인지'를 한 줄로 정리할 것\n- 왜 그 순서인지 근거를 함께 적을 것\n- 중고차 시세는 추측하지 말고, 내가 확인해야 할 항목으로 표시할 것"
+       },
+       {
+        "t": "next",
+        "l": "STEP 2 · 판매 얘기 없이 다시 연락하기",
+        "x": "1순위 고객에게 다시 연락하려고 해.\n그런데 출고 이후 3년 넘게 연락을 못 했어.\n\n첫 연락 메시지를 만들어줘.\n\n[조건]\n- 차량 교체나 신차 이야기는 넣지 말 것\n- 오랜만에 연락하는 것에 대한 자연스러운 이유를 만들 것\n- 고객이 답하기 쉬운 질문으로 끝낼 것\n- 3~4문장, 존댓말\n- 확정되지 않은 금액이나 혜택은 넣지 말 것"
+       }
+      ]
+     },
+     {
+      "code": "3-2",
+      "title": "불만·클레임 응대 톤 설계",
+      "kind": "실습",
+      "tool": "ChatGPT 또는 Gemini (새 대화창)",
+      "prompts": [
+       {
+        "t": "input",
+        "l": "STEP 1 · 톤별로 응대 메시지 받기",
+        "x": "나는 자동차 영업사원이야.\n출고가 예정보다 3주 늦어져서 고객이 불만을 표시했어.\n계약 때 안내한 출고일을 지키지 못한 상황이야.\n\n이 고객에게 보낼 메시지를 세 가지 톤으로 만들어줘.\n\n1. 가볍게 언짢아하는 고객에게\n2. 화가 난 상태의 고객에게\n3. 이미 신뢰를 잃은 것 같은 고객에게\n\n[조건]\n- 세 가지 모두 사실은 동일하게, 톤만 다르게 할 것\n- 각 3~4문장\n- 언제까지 무엇을 하겠다는 내용을 한 줄 넣을 것"
+       },
+       {
+        "t": "next",
+        "l": "STEP 2 · 위험한 문장 걷어내기",
+        "x": "위 메시지들을 아래 기준으로 점검해서 수정본을 줘.\n\n- 회사나 차량의 잘못을 인정하는 표현이 있으면 삭제할 것\n- 보상, 수리비 부담, 추가 혜택처럼 내가 결정할 수 없는 약속이 있으면 삭제할 것\n- 지키지 못할 수 있는 날짜 확언이 있으면 완화할 것\n- '절대', '무조건', '반드시' 같은 단정 표현을 사실 표현으로 바꿀 것"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+];
+
+/* ===== 아이콘 ===== */
+const ICON = {
+  copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.4"/></svg>',
+  tool:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.1 4.6L19 8.3l-3.6 3.4.9 4.9L12 14.3l-4.3 2.3.9-4.9L5 8.3l4.9-.7z"/></svg>',
+  empty:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8.5 11h5"/></svg>'
+};
+
+/* ===== 렌더링 ===== */
+const app = document.getElementById('app');
+const tabsEl = document.getElementById('tabs');
+const countsEl = document.getElementById('counts');
+const qEl = document.getElementById('q');
+let activeSession = 0; // 0 = 전체
+
+function totalPrompts(){
+  let n=0;
+  DATA.forEach(s=>s.chapters.forEach(c=>c.practices.forEach(p=>n+=(p.prompts||[]).length)));
+  return n;
+}
+function sessionPrompts(s){
+  let n=0;
+  s.chapters.forEach(c=>c.practices.forEach(p=>n+=(p.prompts||[]).length));
+  return n;
+}
+function totalPractices(){
+  let n=0;
+  DATA.forEach(s=>s.chapters.forEach(c=>n+=c.practices.length));
+  return n;
+}
+
+function el(tag,cls,txt){
+  const e=document.createElement(tag);
+  if(cls)e.className=cls;
+  if(txt!==undefined)e.textContent=txt;
+  return e;
+}
+
+function selectSession(val){
+  activeSession=val;buildTabs();render();
+  const tb=document.querySelector('.toolbar');
+  const y=document.querySelector('.hero').offsetHeight;
+  if(window.scrollY>y) window.scrollTo({top:y});
+  const cur=tabsEl.querySelector('[aria-selected="true"]');
+  if(cur) cur.scrollIntoView({block:'nearest',inline:'center'});
+}
+
+function buildTabs(){
+  const mk=(label,small,val)=>{
+    const b=document.createElement('button');
+    b.className='tab';b.setAttribute('role','tab');
+    b.appendChild(el('b','',label));
+    b.appendChild(el('small','',small));
+    b.setAttribute('aria-selected', val===activeSession);
+    b.onclick=()=>selectSession(val);
+    return b;
+  };
+  tabsEl.innerHTML='';
+  tabsEl.appendChild(mk('전체','프롬프트 '+totalPrompts()+'개',0));
+  DATA.forEach(s=>tabsEl.appendChild(mk(s.n+'차시',s.stage,s.n)));
+}
+
+function buildHero(){
+  const st=document.getElementById('stats');
+  [[DATA.length,'개 차시'],[totalPractices(),'개 실습'],[totalPrompts(),'개 프롬프트']].forEach(([n,t])=>{
+    const d=el('div','stat');d.appendChild(el('b','',String(n)));d.appendChild(document.createTextNode(t));st.appendChild(d);
+  });
+  const r=document.getElementById('rising');
+  DATA.forEach(s=>{
+    const b=document.createElement('button');
+    b.title=s.n+'차시 · '+s.title;
+    b.setAttribute('aria-label',s.n+'차시 · '+s.title);
+    b.appendChild(el('span','',String(s.n)));
+    b.onclick=()=>{selectSession(s.n);window.scrollTo({top:document.querySelector('.hero').offsetHeight});};
+    r.appendChild(b);
+  });
+}
+
+/* 검색어 강조 (화면 표시용 · 복사 내용과 무관) */
+function fillText(node,text,kw){
+  if(!kw){node.textContent=text;return;}
+  const low=text.toLowerCase();let i=0,j;
+  while((j=low.indexOf(kw,i))!==-1){
+    if(j>i) node.appendChild(document.createTextNode(text.slice(i,j)));
+    node.appendChild(el('mark','',text.slice(j,j+kw.length)));
+    i=j+kw.length;
+  }
+  if(i<text.length) node.appendChild(document.createTextNode(text.slice(i)));
+}
+
+/* 프롬프트 카드 한 장 */
+function promptCard(it,kw){
+  const pr=it.pr;
+  const box=el('div','prompt t-'+pr.t+(pr.fill?' fill':''));
+  const top=el('div','pr-top');
+  top.appendChild(el('span','badge '+T[pr.t][0],T[pr.t][1]));
+  if(pr.fill) top.appendChild(el('span','badge b-fillmark','내 상황으로 바꿔 쓰기'));
+  const lb=el('span','pr-label');fillText(lb,pr.l,kw);top.appendChild(lb);
+  const btn=el('button','copy');
+  btn.innerHTML=ICON.copy+'<span>복사</span>';
+  btn.onclick=()=>doCopy(pr.x,btn);
+  top.appendChild(btn);
+  box.appendChild(top);
+  const body=el('div','pr-body');
+  const p=el('p','pr-text');fillText(p,pr.x,kw);
+  body.appendChild(p);
+  box.appendChild(body);
+  if(pr.note){
+    const n=el('div','pr-note');
+    n.innerHTML=ICON.info;
+    const sp=el('span');fillText(sp,pr.note,kw);n.appendChild(sp);
+    box.appendChild(n);
+  }
+  return box;
+}
+
+function render(){
+  const kw=qEl.value.trim().toLowerCase();
+  app.innerHTML='';
+  let shown=0;
+
+  // 안내 박스 (전체 보기 + 검색 없을 때만)
+  if(!kw && activeSession===0){
+    const c=el('div','callout');
+    const left=el('div');
+    left.appendChild(el('h2','','이 모음집 쓰는 법'));
+    const ul=el('ol');
+    [
+     '프롬프트 오른쪽 [복사]를 누르고 ChatGPT·Gemini 입력창에 붙여넣으세요.',
+     '빨간 테두리 카드는 그대로 보내면 안 됩니다. 고객 상황이나 숫자를 내 것으로 바꿔 넣은 다음 보내세요.',
+     '상담 중에는 검색창에 차종이나 키워드를 넣어 필요한 프롬프트만 바로 찾으세요.',
+     '고객 실명·전화번호는 어떤 프롬프트에도 넣지 마세요. 나이대·차종·상담 내용만으로 충분합니다.',
+     '보조금·금리·보증기간 같은 숫자는 AI에게 묻지 말고, 공식 자료에서 확인한 값을 넣으세요.',
+     'AI가 준 답은 고객에게 쓰기 전에 꼭 읽어 보세요.'
+    ].forEach(t=>ul.appendChild(el('li','',t)));
+    left.appendChild(ul);
+    c.appendChild(left);
+
+    const lg=el('div','legend');
+    lg.appendChild(el('h3','','카드 유형'));
+    [['input','새로 입력'],['next','앞 대화에 이어서 입력'],['fix','결과 다듬기 (짧은 수정 요청)'],
+     ['inst','챗봇 지침 (Gems/GPTs 지침 칸에 붙여넣기)'],['build','도구 제작 (HTML 결과물)']].forEach(([k,d])=>{
+      const row=el('div');row.appendChild(el('span','badge '+T[k][0],T[k][1]));row.appendChild(el('span','',d));lg.appendChild(row);
+    });
+    const fr=el('div','lg-fill');fr.appendChild(el('i'));fr.appendChild(el('span','','빨간 테두리 = 내 상황으로 바꿔 쓰기'));
+    lg.appendChild(fr);
+    c.appendChild(lg);
+    app.appendChild(c);
+  }
+
+  DATA.forEach(s=>{
+    if(activeSession && s.n!==activeSession) return;
+    const sess=el('section','session');sess.id='s'+s.n;
+    const head=el('div','session-head');
+    const num=el('div','session-num');
+    num.appendChild(el('small','','차시'));
+    num.appendChild(el('b','',String(s.n).padStart(2,'0')));
+    head.appendChild(num);
+    const tw=el('div');
+    tw.appendChild(el('div','session-stage',s.stage));
+    tw.appendChild(el('h2','session-title',s.title));
+    head.appendChild(tw);
+    sess.appendChild(head);
+
+    let sessHas=false;
+
+    s.chapters.forEach((ch,ci)=>{
+      const chEl=el('div','chapter');
+      chEl.appendChild(el('div','chapter-title',ch.title));
+      let chHas=false;
+
+      ch.practices.forEach((p,pi)=>{
+        const all=(p.prompts||[]).map(pr=>({pr:pr}));
+        const list=all.filter(it=>{
+          if(!kw) return true;
+          const pr=it.pr;
+          return (pr.x+' '+pr.l+' '+(pr.note||'')+' '+p.title+' '+ch.title+' '+(p.tool||'')).toLowerCase().includes(kw);
+        });
+        if(kw && list.length===0) return;
+        if(kw && (p.prompts||[]).length===0) return;
+        if(!kw && (p.prompts||[]).length>0 && list.length===0) return;
+
+        const pe=el('article','practice');
+        const ph=el('div','p-head');
+        ph.appendChild(el('span','p-code',p.code));
+        ph.appendChild(el('h3','p-title',p.title));
+        if(p.tool){
+          const tl=el('span','p-tool');tl.innerHTML=ICON.tool;tl.appendChild(el('span','',p.tool));ph.appendChild(tl);
+        }
+        pe.appendChild(ph);
+
+        const wrap=el('div','prompts');
+        list.forEach(it=>{
+          shown++;
+          wrap.appendChild(promptCard(it,kw));
+        });
+        pe.appendChild(wrap);
+
+        chEl.appendChild(pe);
+        chHas=true;
+      });
+
+      if(chHas){sess.appendChild(chEl);sessHas=true;}
+    });
+
+    if(sessHas) app.appendChild(sess);
+  });
+
+  if(shown===0){
+    const e=el('div','empty');e.innerHTML=ICON.empty;
+    e.appendChild(el('div','','찾는 프롬프트가 없습니다. 다른 낱말로 검색해 보세요.'));
+    app.appendChild(e);
+  }
+  countsEl.textContent = kw
+    ? '검색 결과 '+shown+'개'
+    : '전체 프롬프트 '+totalPrompts()+'개 · 7개 차시';
+}
+
+/* ===== 복사 ===== */
+function doCopy(text,btn){
+  const ok=()=>{
+    btn.innerHTML=ICON.check+'<span>복사됨</span>';btn.classList.add('done');
+    toast('복사했습니다');
+    setTimeout(()=>{btn.innerHTML=ICON.copy+'<span>복사</span>';btn.classList.remove('done');},1600);
+  };
+  const fallback=()=>{
+    const ta=document.createElement('textarea');
+    ta.value=text;
+    ta.style.position='fixed';ta.style.top='0';ta.style.left='0';ta.style.opacity='0';
+    document.body.appendChild(ta);
+    ta.focus();ta.select();ta.setSelectionRange(0,text.length);
+    let done=false;
+    try{done=document.execCommand('copy');}catch(e){done=false;}
+    document.body.removeChild(ta);
+    done?ok():toast('복사가 안 됩니다. 길게 눌러 직접 선택하세요');
+  };
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(ok).catch(fallback);
+  }else{
+    fallback();
+  }
+}
+
+let toastTimer;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),1500);
+}
+
+/* ===== 컨트롤 ===== */
+let scale=1;
+function setScale(v){
+  scale=Math.round(Math.min(1.7,Math.max(0.85,v))*100)/100;
+  document.documentElement.style.setProperty('--scale',scale);
+  toast('글자 크기 '+Math.round(scale*100)+'%');
+}
+document.getElementById('fs-up').onclick=()=>setScale(scale+0.12);
+document.getElementById('fs-down').onclick=()=>setScale(scale-0.12);
+try{const saved=localStorage.getItem('kia-prompt-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);}catch(e){}
+document.getElementById('theme').onclick=()=>{
+  const cur=document.documentElement.getAttribute('data-theme');
+  const nx=cur==='light'?'dark':'light';
+  document.documentElement.setAttribute('data-theme',nx);
+  try{localStorage.setItem('kia-prompt-theme',nx);}catch(e){}
+};
+let qt;
+qEl.addEventListener('input',()=>{clearTimeout(qt);qt=setTimeout(render,140);});
+
+const topBtn=document.getElementById('totop');
+topBtn.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+window.addEventListener('scroll',()=>topBtn.classList.toggle('show',window.scrollY>600),{passive:true});
+
+buildHero();
+buildTabs();
+render();
+</script>
+</body>
+</html>
