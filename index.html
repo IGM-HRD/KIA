@@ -1299,7 +1299,6 @@ function promptCard(it,kw,sessNo,code){
     tag.appendChild(el('span','st-step',m[1]));
     top.appendChild(tag);
   }
-  top.appendChild(el('span','badge '+T[pr.t][0],T[pr.t][1]));
   if(pr.fill) top.appendChild(el('span','badge b-fillmark','내 상황으로 바꿔 쓰기'));
   const lb=el('span','pr-label');fillText(lb,m?m[2]:pr.l,kw);top.appendChild(lb);
   const btn=el('button','copy');
@@ -1343,11 +1342,7 @@ function render(){
     c.appendChild(left);
 
     const lg=el('div','legend');
-    lg.appendChild(el('h3','','카드 유형'));
-    [['input','새로 입력'],['next','앞 대화에 이어서 입력'],['fix','결과 다듬기 (짧은 수정 요청)'],
-     ['inst','챗봇 지침 (Gems/GPTs 지침 칸에 붙여넣기)'],['build','도구 제작 (HTML 결과물)']].forEach(([k,d])=>{
-      const row=el('div');row.appendChild(el('span','badge '+T[k][0],T[k][1]));row.appendChild(el('span','',d));lg.appendChild(row);
-    });
+    lg.appendChild(el('h3','','표시 안내'));
     const fr=el('div','lg-fill');fr.appendChild(el('i'));fr.appendChild(el('span','','빨간 테두리 = 내 상황으로 바꿔 쓰기'));
     lg.appendChild(fr);
     c.appendChild(lg);
